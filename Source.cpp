@@ -225,6 +225,6 @@ void c(node* x)
 
 int main()
 {
-	
+   
     return 0;
 }
