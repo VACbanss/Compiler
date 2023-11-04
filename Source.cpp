@@ -94,6 +94,37 @@ node* sum()
     return x;
 }
 
+node* test()
+{
+    node* t, * x = sum();
+    if (sym == LESS)
+    {
+        t = x; x = new_node(LT); next_sym(); x->o1 = t; x->o2 = sum();
+    }
+    return x;
+}
+
+node* expr() 
+{
+    node* t, * x;
+    if (sym != ID) return test();
+    x = test();
+    if (x->kind == VAR && sym == EQUAL)
+    {
+        t = x; x = new_node(SET); next_sym(); x->o1 = t; x->o2 = expr();
+    }
+    return x;
+}
+
+node* paren_expr() 
+{
+    node* x;
+    if (sym == LPAR) next_sym(); else syntax_error();
+    x = expr();
+    if (sym == RPAR) next_sym(); else syntax_error();
+    return x;
+}
+
 int main()
 {
 	
