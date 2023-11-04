@@ -188,6 +188,27 @@ node* program()
     return x;
 }
 
+/*Code generator*/
+
+enum { IFETCH, ISTORE, IPUSH, IPOP, IADD, ISUB, ILT, JZ, JNZ, JMP, HALT };
+
+typedef char code;
+code object[1000], * here = object;
+
+void g(code c) { *here++ = c; }
+code* hole() { return here++; }
+void fix(code* src, code* dst) { *src = dst - src; }
+
+void c(node* x)
+{
+    code* p1, * p2;
+    switch (x->kind)
+    {
+    case VAR: g(IFETCH); g(x->val); break;
+    case CST: g(IPUSH); g(x->val); break;
+    }
+}
+
 int main()
 {
 	
