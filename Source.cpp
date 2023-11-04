@@ -247,6 +247,15 @@ again: switch (*pc++)
 
 int main()
 {
-   
+    int i;
+
+    c(program());
+
+    for (i = 0; i < 26; i++)
+        globals[i] = 0;
+    run();
+    for (i = 0; i < 26; i++)
+        if (globals[i] != 0)
+            printf("%c = %d\n", 'a' + i, globals[i]);
     return 0;
 }
