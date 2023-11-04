@@ -12,9 +12,9 @@ int sym;
 int int_val;
 char id_name[100];
 
-void syntax_error() { fprintf(stderr, "syntax error\n"); exit(1); }
-void next_ch() { ch = getchar();}
-void next_sym()
+void syntax_error() { fprintf(stderr, "syntax error\n"); exit(1); } // модуль ошибки
+void next_ch() { ch = getchar();} // получение нового токена
+void next_sym() // Сверка токена со специальными символами
 {
 again: switch (ch)
 {
@@ -57,10 +57,9 @@ default:
         syntax_error();
 }
 }
-/**/
 
 int main()
 {
 	
-	return 0;
+    return 0;
 }
