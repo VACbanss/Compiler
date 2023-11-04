@@ -12,6 +12,7 @@ int sym;
 int int_val;
 char id_name[100];
 
+void syntax_error() { fprintf(stderr, "syntax error\n"); exit(1); }
 void next_ch() { ch = getchar();}
 void next_sym()
 {
@@ -50,8 +51,10 @@ default:
         while (words[sym] != NULL && strcmp(words[sym], id_name) != 0)
             sym++;
         if (words[sym] == NULL)
-            if (id_name[1] == '\0') sym = ID;
+            if (id_name[1] == '\0') sym = ID; else syntax_error();
     }
+    else
+        syntax_error();
 }
 }
 /**/
