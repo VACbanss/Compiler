@@ -125,6 +125,68 @@ node* paren_expr()
     return x;
 }
 
+node* statement()
+{
+    node* t, * x;
+    if (sym == IF_SYM)
+    {
+        x = new_node(IF1);
+        next_sym();
+        x->o1 = paren_expr();
+        x->o2 = statement();
+        if (sym == ELSE_SYM)
+        {
+            x->kind = IF2;
+            next_sym();
+            x->o3 = statement();
+        }
+    }
+    else if (sym == WHILE_SYM)
+    {
+        x = new_node(WHILE);
+        next_sym();
+        x->o1 = paren_expr();
+        x->o2 = statement();
+    }
+    else if (sym == DO_SYM)
+    {
+        x = new_node(DO);
+        next_sym();
+        x->o1 = statement();
+        if (sym == WHILE_SYM) next_sym(); else syntax_error();
+        x->o2 = paren_expr();
+        if (sym == SEMI) next_sym(); else syntax_error();
+    }
+    else if (sym == SEMI)
+    {
+        x = new_node(EMPTY); next_sym();
+    }
+    else if (sym == LBRA)
+    {
+        x = new_node(EMPTY);
+        next_sym();
+        while (sym != RBRA)
+        {
+            t = x; x = new_node(SEQ); x->o1 = t; x->o2 = statement();
+        }
+        next_sym();
+    }
+    else
+    {
+        x = new_node(EXPR);
+        x->o1 = expr();
+        if (sym == SEMI) next_sym(); else syntax_error();
+    }
+    return x;
+}
+
+node* program()
+{
+    node* x = new_node(PROG);
+    next_sym(); x->o1 = statement(); if (sym != EOI) syntax_error();
+    return x;
+}
+
 int main()
 {
 	
