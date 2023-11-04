@@ -58,6 +58,42 @@ default:
 }
 }
 
+/*Parser*/
+
+enum {
+    VAR, CST, ADD, SUB, LT, SET,
+    IF1, IF2, WHILE, DO, EMPTY, SEQ, EXPR, PROG
+};
+
+struct node { int kind; struct node* o1, * o2, * o3; int val; };
+typedef struct node node;
+
+node* new_node(int k)
+{
+    node* x = (node*)malloc(sizeof(node)); x->kind = k; return x;
+}
+
+node* paren_expr();
+
+node* term()
+{
+    node* x;
+    if (sym == ID) { x = new_node(VAR); x->val = id_name[0] - 'a'; next_sym(); }
+    else if (sym == INT) { x = new_node(CST); x->val = int_val; next_sym(); }
+    else x = paren_expr();
+    return x;
+}
+
+node* sum()
+{
+    node* t, * x = term();
+    while (sym == PLUS || sym == MINUS)
+    {
+        t = x; x = new_node(sym == PLUS ? ADD : SUB); next_sym(); x->o1 = t; x->o2 = term();
+    }
+    return x;
+}
+
 int main()
 {
 	
