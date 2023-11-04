@@ -223,6 +223,21 @@ void c(node* x)
     }
 }
 
+/*Virtual machine*/
+int globals[26];
+
+void run()
+{
+    int stack[1000], * sp = stack;
+    code* pc = object;
+again: switch (*pc++)
+    {
+    case IFETCH: *sp++ = globals[*pc++];               goto again;
+    case ISTORE: globals[*pc++] = sp[-1];              goto again;
+    case IPUSH: *sp++ = *pc++;                        goto again;
+    }
+}
+
 int main()
 {
    
