@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+
 /*Lexer*/
 enum { // специальные символы языка
 	DO_SYM, ELSE_SYM, IF_SYM, WHILE_SYM, LBRA, RBRA, LPAR, RPAR,
