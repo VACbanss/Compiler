@@ -185,7 +185,7 @@ node* statement()
 node* program()
 {
     node* x = new_node(PROG);
-    next_sym(); x->o1 = statement(); if (sym != EOI) syntax_error();
+    next_sym(); x->o1 = statement();
     return x;
 }
 
@@ -251,7 +251,6 @@ int main()
     int i;
 
     c(program());
-
     for (i = 0; i < 26; i++)
         globals[i] = 0;
     run();
